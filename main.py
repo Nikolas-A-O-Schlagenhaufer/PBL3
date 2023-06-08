@@ -4,33 +4,33 @@ from math import gcd
 import statistics
 from alive_progress import alive_bar
 
-def create_masks(img, altura:int=9, largura:int=16):
-	mdc = gcd(img.shape[0], img.shape[1])
-	print(mdc)
-	masks = {}
-	for linha in range(altura):
-		for coluna in range(largura):
-			masks[(linha,coluna)] = np.zeros(img.shape[:2], np.uint8)
-			masks[(linha,coluna)][linha*mdc:(linha+1)*mdc, coluna*mdc:(coluna+1)*mdc] = 255
-	return masks
+# def create_masks(img, altura:int=9, largura:int=16):
+# 	mdc = gcd(img.shape[0], img.shape[1])
+# 	print(mdc)
+# 	masks = {}
+# 	for linha in range(altura):
+# 		for coluna in range(largura):
+# 			masks[(linha,coluna)] = np.zeros(img.shape[:2], np.uint8)
+# 			masks[(linha,coluna)][linha*mdc:(linha+1)*mdc, coluna*mdc:(coluna+1)*mdc] = 255
+# 	return masks
 
-def create_hists(img, masks, altura:int=9, largura:int=16):
-	masked_imgs = {}
-	histograms = {}
-	for linha in range(altura):
-		for coluna in range(largura):
-			masked_imgs[(linha,coluna)] = cv2.bitwise_and(img,img,mask = masks[(linha,coluna)])
-			histograms[(linha,coluna)] = cv2.calcHist([img],[0],masks[(linha,coluna)],[256],[0,256])
-	return histograms, masked_imgs
+# def create_hists(img, masks, altura:int=9, largura:int=16):
+# 	masked_imgs = {}
+# 	histograms = {}
+# 	for linha in range(altura):
+# 		for coluna in range(largura):
+# 			masked_imgs[(linha,coluna)] = cv2.bitwise_and(img,img,mask = masks[(linha,coluna)])
+# 			histograms[(linha,coluna)] = cv2.calcHist([img],[0],masks[(linha,coluna)],[256],[0,256])
+# 	return histograms, masked_imgs
 
-def calc_hist_mean(histograms, altura:int=9, largura:int=16):
-	size = len(histograms[0,0])
-	hist_mean = {}
-	for linha in range(altura):
-		for coluna in range(largura):
-			sum_result = [histograms[(linha,coluna)][i][0] for i in range(size)]
-			hist_mean[(linha,coluna)] = sum_result.index(max(sum_result))
-	return hist_mean
+# def calc_hist_mean(histograms, altura:int=9, largura:int=16):
+# 	size = len(histograms[0,0])
+# 	hist_mean = {}
+# 	for linha in range(altura):
+# 		for coluna in range(largura):
+# 			sum_result = [histograms[(linha,coluna)][i][0] for i in range(size)]
+# 			hist_mean[(linha,coluna)] = sum_result.index(max(sum_result))
+# 	return hist_mean
 
 def pixel_mean(img, altura:int=9, largura:int=16):
 	mdc = gcd(img.shape[0], img.shape[1])
